@@ -1,4 +1,4 @@
-# Week 2 assgnment funsets
+# Week 2 Assgnment of funsets
 coursera fFunctional Programming Principles in Scala week 2 exam
 
 ## How to submit my Programming Assignment
