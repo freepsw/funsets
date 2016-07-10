@@ -77,6 +77,7 @@ class FunSetSuite extends FunSuite {
     val s1 = singletonSet(1)
     val s2 = singletonSet(2)
     val s3 = singletonSet(3)
+    val s4 = singletonSet(4)
   }
 
   /**
@@ -119,5 +120,63 @@ class FunSetSuite extends FunSuite {
     }
   }
 
+  test("diff") {
+    new TestSets {
+      val d1 = union(s1, s2)
+      val d2 = union(s2, s3)
+      val d3 = diff(d1, d2)
+      assert(contains(d3, 1), "Diff 1")
+      assert(!contains(d3, 2), "Diff 2")
+    }
+  }
 
+  test("filter") {
+    new TestSets {
+      val d1 = union(s1, s2)
+      def f(a:Int): Boolean = a > 1
+      val d2 = filter(s2, f)
+      assert(contains(d2, 2), "Diff 1")
+      assert(!contains(d2, 1), "Diff 2")
+    }
+  }
+
+  test("forall") {
+    new TestSets {
+      val f1 = union(s1, s2)
+      val f2 = union(s3, s4)
+      val f3 = union(f1, f2)
+
+      def f(a: Int): Boolean = a < 5
+
+      val d2 = forall(f3, f)
+      assert(d2, "Forall 1")
+    }
+  }
+
+  test("exists") {
+      new TestSets {
+        val f1 = union(s3, s4)
+        val f2 = s2
+        val f3 = union(f1, f2)
+
+        def f(a: Int): Boolean = a < 5
+
+        val d2 = exists(f3, f)
+        assert(d2, "exists 1")
+      }
+    }
+
+    test("map") {
+      new TestSets {
+        val f1 = union(s1, s2)
+        val f2 = union(s3, s4)
+        val f3 = union(f1, f2)
+        def f(a: Int): Int = a + 1
+
+        val m1 = map(f3, f)
+
+        assert(contains(m1, 2), "map 1")
+        assert(contains(m1, 5), "map 2")
+      }
+    }
 }
